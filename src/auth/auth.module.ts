@@ -1,22 +1,22 @@
+// src/auth/auth.module.ts
 import { Module } from '@nestjs/common';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
-import { TypeOrmModule } from '@nestjs/typeorm'; 
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
 import { User } from 'src/users/entity/users.entity';
-import { UsersModule } from 'src/users/users.module';
+import { JwtStrategy } from './jwt.strategy';
+import { UserService } from 'src/users/users.service';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([User]), // Import the User entity for TypeORM
-    JwtModule.register({
-      secret: process.env.JWT_SECRET || 'yourSecretKey', // Use an environment variable for the secret
-      signOptions: { expiresIn: '1h' }, // Token expiration time
-    }),
-    UsersModule,
-  ],
-  controllers: [AuthController],
-  providers: [AuthService],
-  exports: [AuthService], 
+    imports: [
+        TypeOrmModule.forFeature([User]),
+        JwtModule.register({
+            secret: 'your_secret_key', // Use a .env variable in production
+            signOptions: { expiresIn: '1h' }, // Token expiration time
+        }),
+    ],
+    providers: [AuthService, JwtStrategy, UserService],
+    controllers: [AuthController],
 })
 export class AuthModule {}

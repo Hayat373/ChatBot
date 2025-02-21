@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 
 import { AuthModule } from './auth/auth.module';
-import {  UsersModule } from './users/users.module';
+import { UserModule } from './users/users.module';
 import { ChatbotModule } from './chatbot/chatbot.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -11,15 +11,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      username: process.env.username, 
-      password:  process.env.password,   
-      database:  process.env.database,   
+      username: 'postgres', 
+      password:  'Lifeoftheworld@3',   
+      database:  'chatbot',   
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,           
     }),
     AuthModule,
-    UsersModule,
-    ChatbotModule
+    UserModule,
+   
   
   ],
 })
